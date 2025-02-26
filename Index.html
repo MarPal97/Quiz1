@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertir Temperatura</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            display: flex;
+            max-width: 800px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .column {
+            flex: 1;
+            padding: 10px;
+        }
+        .column:first-child {
+            border-right: 1px solid #ddd;
+        }
+        h2 {
+            margin-top: 0;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        pre {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Columna 1: Seudocódigo -->
+        <div class="column">
+            <h2>Seudocódigo</h2>
+            <pre id="pseudocodigo">
+Inicio
+   Leer Celsius
+   Fahrenheit = (Celsius * 9/5) + 32
+   Imprimir "La temperatura en Fahrenheit es: ", Fahrenheit
+Fin
+            </pre>
+        </div>
+
+        <!-- Columna 2: Prompt de IA y aplicación interactiva -->
+        <div class="column">
+            <h2>Prompt de IA</h2>
+            <p id="promptIA">"Convierte una temperatura en grados Celsius a Fahrenheit y muestra el resultado."</p>
+
+            <label for="conversionType">Seleccione el tipo de conversión:</label>
+            <select id="conversionType" onchange="actualizarPseudocodigoYPrompt()">
+                <option value="celsiusToFahrenheit">Celsius a Fahrenheit</option>
+                <option value="fahrenheitToCelsius">Fahrenheit a Celsius</option>
+            </select>
+
+            <label for="temperatura">Ingrese la temperatura:</label>
+            <input type="number" id="temperatura" placeholder="Ejemplo: 25">
+            <button onclick="convertirTemperatura()">Convertir</button>
+            <div class="result" id="resultado"></div>
+        </div>
+    </div>
+
+    <script>
+        // Función para actualizar el pseudocódigo y el prompt según la selección
+        function actualizarPseudocodigoYPrompt() {
+            const conversionType = document.getElementById('conversionType').value;
+            const pseudocodigo = document.getElementById('pseudocodigo');
+            const promptIA = document.getElementById('promptIA');
+
+            if (conversionType === "celsiusToFahrenheit") {
+                pseudocodigo.textContent = `
+Inicio
+   Leer Celsius
+   Fahrenheit = (Celsius * 9/5) + 32
+   Imprimir "La temperatura en Fahrenheit es: ", Fahrenheit
+Fin
+                `;
+                promptIA.textContent = '"Convierte una temperatura en grados Celsius a Fahrenheit y muestra el resultado."';
+            } else {
+                pseudocodigo.textContent = `
+Inicio
+   Leer Fahrenheit
+   Celsius = (Fahrenheit - 32) * 5/9
+   Imprimir "La temperatura en Celsius es: ", Celsius
+Fin
+                `;
+                promptIA.textContent = '"Convierte una temperatura en grados Fahrenheit a Celsius y muestra el resultado."';
+            }
+        }
+
+        // Función para convertir temperatura
+        function convertirTemperatura() {
+            const conversionType = document.getElementById('conversionType').value;
+            const temperatura = parseFloat(document.getElementById('temperatura').value);
+            const resultadoElement = document.getElementById('resultado');
+
+            if (isNaN(temperatura)) {
+                resultadoElement.textContent = "Por favor, ingrese un valor válido.";
+                return;
+            }
+
+            if (conversionType === "celsiusToFahrenheit") {
+                const fahrenheit = (temperatura * 9/5) + 32;
+                resultadoElement.textContent = `La temperatura en Fahrenheit es: ${fahrenheit.toFixed(2)}`;
+            } else {
+                const celsius = (temperatura - 32) * 5/9;
+                resultadoElement.textContent = `La temperatura en Celsius es: ${celsius.toFixed(2)}`;
+            }
+        }
+    </script>
+</body>
+</html>
